@@ -1,0 +1,23 @@
+build*/
+
+# Ignore generated benchmark output, but keep the canonical published numbers
+# and chart that the README points at.
+results/*
+!results/results.csv
+!results/chart.png
+!results/chart.svg
+
+_deps/
+.vs/
+.vscode/
+.cache/
+CMakeUserPresets.json
+CMakeCache.txt
+CMakeFiles/
+*.exe
+*.obj
+*.lib
+*.pdb
+*.ilk
+*.exp
+compile_commands.json
