@@ -44,6 +44,8 @@ endif()
 # --- XAD ---
 if(ENABLE_XAD)
     set(XAD_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+    set(XAD_WARNINGS_PARANOID OFF CACHE BOOL "" FORCE)
+
     if(ENABLE_XAD_JIT)
         # XAD handles xad-codegen integration internally via XAD_CODEGEN_DIR
         set(XAD_ENABLE_CODEGEN ON CACHE BOOL "" FORCE)
