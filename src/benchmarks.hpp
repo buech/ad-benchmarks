@@ -32,6 +32,13 @@ BenchmarkResult xad_jit_xva(size_t warmup, size_t iters);
 BenchmarkResult xad_jit_libor_swaption(int numPaths, size_t warmup, size_t iters);
 #endif
 
+#ifdef ENABLE_ADVENTURE
+BenchmarkResult adventure_heston(int numPaths, size_t warmup, size_t iters);
+BenchmarkResult adventure_sabr_calibration(size_t warmup, size_t iters);
+BenchmarkResult adventure_xva(size_t warmup, size_t iters);
+BenchmarkResult adventure_libor_swaption(int numPaths, size_t warmup, size_t iters);
+#endif
+
 // --- CppAD ---
 #ifdef ENABLE_CPPAD
 BenchmarkResult cppad_heston(int numPaths, size_t warmup, size_t iters);

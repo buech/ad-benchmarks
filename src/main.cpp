@@ -106,6 +106,9 @@ int main(int argc, char** argv)
 #ifdef ENABLE_XAD_JIT
         run([&]() { return xad_jit_heston(mc_paths, warmup, iters); }, "XAD-Codegen");
 #endif
+#ifdef ENABLE_ADVENTURE
+        run([&]() { return adventure_heston(mc_paths, warmup, iters); }, "adventure");
+#endif
 #ifdef ENABLE_CPPAD
         run([&]() { return cppad_heston(mc_paths, warmup, iters); }, "CppAD");
 #endif
@@ -127,6 +130,9 @@ int main(int argc, char** argv)
 #endif
 #ifdef ENABLE_XAD_JIT
         run([&]() { return xad_jit_sabr_calibration(warmup, iters); }, "XAD-Codegen");
+#endif
+#ifdef ENABLE_ADVENTURE
+        run([&]() { return adventure_sabr_calibration(warmup, iters); }, "adventure");
 #endif
 #ifdef ENABLE_CPPAD
         run([&]() { return cppad_sabr_calibration(warmup, iters); }, "CppAD");
@@ -153,6 +159,9 @@ int main(int argc, char** argv)
 #ifdef ENABLE_XAD_JIT
         run([&]() { return xad_jit_xva(warmup, iters); }, "XAD-Codegen");
 #endif
+#ifdef ENABLE_ADVENTURE
+        run([&]() { return adventure_xva(warmup, iters); }, "adventure");
+#endif
 #ifdef ENABLE_CPPAD
         run([&]() { return cppad_xva(warmup, iters); }, "CppAD");
 #endif
@@ -175,6 +184,9 @@ int main(int argc, char** argv)
 #endif
 #ifdef ENABLE_XAD_JIT
         run([&]() { return xad_jit_libor_swaption(mc_paths, warmup, iters); }, "XAD-Codegen");
+#endif
+#ifdef ENABLE_ADVENTURE
+        run([&]() { return adventure_libor_swaption(mc_paths, warmup, iters); }, "adventure");
 #endif
 #ifdef ENABLE_CPPAD
         run([&]() { return cppad_libor_swaption(mc_paths, warmup, iters); }, "CppAD");

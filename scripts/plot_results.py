@@ -37,14 +37,15 @@ LIBRARY_COLORS = {
     "Adept":       "#616161",
     "XAD":         XAD_GOLD,
     "XAD-Codegen": XAD_GOLD_DARK,
+    "adventure":   "#54C916",
 }
 
-LIBRARY_ORDER = ["FD", "autodiff", "CppAD", "Adept", "XAD", "XAD-Codegen"]
+LIBRARY_ORDER = ["FD", "autodiff", "CppAD", "Adept", "XAD", "XAD-Codegen", "adventure"]
 
 # Libraries used to compute the canonical "primal" baseline. FD is excluded
 # because its primal benchmark uses pre-generated random samples (whereas the
 # AAD libs include RNG cost), so it understates the true single-eval cost.
-PRIMAL_BASELINE_LIBS = ["XAD", "CppAD", "Adept", "XAD-Codegen"]
+PRIMAL_BASELINE_LIBS = ["XAD", "CppAD", "Adept", "XAD-Codegen", "adventure"]
 
 BENCH_LABELS = {
     "HestonMC":      "Heston MC\n8 sensitivities, 10K paths",

@@ -14,17 +14,20 @@ include(FetchContent)
 # ===========================================================================
 # Options - enable/disable each library
 # ===========================================================================
-option(ENABLE_XAD      "Build XAD benchmarks"      ON)
-option(ENABLE_CPPAD    "Build CppAD benchmarks"     ON)
-option(ENABLE_ADEPT    "Build Adept 2 benchmarks"   ON)
-option(ENABLE_AUTODIFF "Build autodiff benchmarks"  ON)
-option(ENABLE_XAD_JIT  "Build XAD JIT benchmarks"   OFF)  # requires xad-codegen
+option(ENABLE_XAD       "Build XAD benchmarks"       ON)
+option(ENABLE_ADVENTURE "Build adventure benchmarks" ON)
+option(ENABLE_CPPAD     "Build CppAD benchmarks"     ON)
+option(ENABLE_ADEPT     "Build Adept 2 benchmarks"   ON)
+option(ENABLE_AUTODIFF  "Build autodiff benchmarks"  ON)
+option(ENABLE_XAD_JIT   "Build XAD JIT benchmarks"   OFF)  # requires xad-codegen
 
 set(MC_PATHS 10000 CACHE STRING "Default MC path count for LIBOR swaption benchmark")
 
 # Path to local XAD if not system-installed
 set(XAD_DIR "" CACHE PATH "Path to XAD source (if not using FetchContent)")
 set(XAD_CODEGEN_DIR "" CACHE PATH "Path to xad-codegen source (for JIT benchmarks)")
+
+set(ADVENTURE_DIR "" CACHE PATH "Path to adventure source (if not using FetchContent)")
 
 # ===========================================================================
 # Compiler flags for fair comparison
@@ -62,6 +65,22 @@ if(ENABLE_XAD)
             GIT_SHALLOW    TRUE
         )
         FetchContent_MakeAvailable(xad)
+    endif()
+endif()
+
+if(ENABLE_ADVENTURE)
+    set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(BUILD_BENCHMARKS OFF CACHE BOOL "" FORCE)
+    set(BUILD_DOCS OFF CACHE BOOL "" FORCE)
+    if(ADVENTURE_DIR)
+        add_subdirectory(${ADVENTURE_DIR} ${CMAKE_BINARY_DIR}/adventure)
+    else()
+        FetchContent_Declare(adventure
+            GIT_REPOSITORY https://github.com/buech/adventure.git
+            GIT_TAG        main
+            GIT_SHALLOW    TRUE
+        )
+        FetchContent_MakeAvailable(adventure)
     endif()
 endif()
 
@@ -134,6 +153,15 @@ if(ENABLE_XAD_JIT)
     )
 endif()
 
+if(ENABLE_ADVENTURE)
+    list(APPEND BENCH_SOURCES
+        adventure/heston_adventure.cpp
+        adventure/sabr_calibration_adventure.cpp
+        adventure/xva_adventure.cpp
+        adventure/libor_swaption_adventure.cpp
+    )
+endif()
+
 if(ENABLE_CPPAD)
     list(APPEND BENCH_SOURCES
         cppad/heston_cppad.cpp
@@ -168,6 +196,11 @@ target_include_directories(ad_benchmarks PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 if(ENABLE_XAD)
     target_compile_definitions(ad_benchmarks PRIVATE ENABLE_XAD)
     target_link_libraries(ad_benchmarks PRIVATE xad)
+endif()
+
+if(ENABLE_ADVENTURE)
+    target_compile_definitions(ad_benchmarks PRIVATE ENABLE_ADVENTURE)
+    target_link_libraries(ad_benchmarks PRIVATE adventure)
 endif()
 
 if(ENABLE_CPPAD)
